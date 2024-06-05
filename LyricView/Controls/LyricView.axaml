@@ -1,0 +1,62 @@
+<UserControl
+    x:Class="LyricView.Controls.LyricView"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ctrls="using:LyricView.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    Background="Transparent"
+    mc:Ignorable="d">
+    <Grid RowDefinitions="*,Auto,*">
+        <ScrollViewer
+            x:Name="scrollViewer"
+            Grid.RowSpan="3"
+            Margin="50,0,50,0"
+            HorizontalScrollBarVisibility="Disabled">
+            <ItemsControl x:Name="itemsControl" ContainerPrepared="itemsControl_ContainerPrepared">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="ctrls:Lyric">
+                        <TextBlock
+                            Width="{Binding $parent[ItemsControl].Bounds.Width}"
+                            Margin="0,2,0,4"
+                            Classes="Default"
+                            Text="{Binding Text}"
+                            TextWrapping="Wrap" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Grid
+            x:Name="timelineGrid"
+            Grid.Row="1"
+            ColumnDefinitions="50,*,50"
+            IsVisible="False">
+            <Button
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Click="playButton_Click"
+                Content="Play" />
+            <Path
+                Grid.Column="1"
+                Margin="6,0,6,0"
+                VerticalAlignment="Center"
+                Data="M 0,0 1,0"
+                Stretch="Fill"
+                Stroke="Gray"
+                StrokeDashArray="2,2"
+                StrokeThickness="1" />
+            <TextBlock
+                x:Name="timeline"
+                Grid.Column="2"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center" />
+        </Grid>
+    </Grid>
+</UserControl>
