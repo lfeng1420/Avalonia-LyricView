@@ -1,5 +1,5 @@
 ## 效果
-[](https://raw.githubusercontent.com/lfeng1420/Avalonia-LyricView/main/samples.mp4)
+<video src='https://raw.githubusercontent.com/lfeng1420/Avalonia-LyricView/main/samples.mp4' width=400></video>
 
 ## 存在的问题
 * 目前`ItemsControl`没有使用虚拟化Panel，如果启用，有概率出现滚动时出现重复创建item的情况（一般在各行歌词高度差异较大时），见[issue-15194](https://github.com/AvaloniaUI/Avalonia/issues/15194)
