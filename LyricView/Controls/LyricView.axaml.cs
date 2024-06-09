@@ -28,7 +28,7 @@ namespace LyricView.Controls
         public static readonly StyledProperty<string> SelectedClassesProperty = AvaloniaProperty.Register<LyricView, string>(nameof(SelectedClasses));
 
         /// <summary>
-        /// µ±Ç°Ê±¼ä
+        /// å½“å‰æ—¶é—´
         /// </summary>
         public double CurrentTime
         {
@@ -37,7 +37,7 @@ namespace LyricView.Controls
         }
 
         /// <summary>
-        /// µÚÒ»´Î¹ö¶¯ÑÓ³ÙÊ±¼ä£¨ºÁÃë£©
+        /// ç¬¬ä¸€æ¬¡æ»šåŠ¨å»¶è¿Ÿæ—¶é—´ï¼ˆæ¯«ç§’ï¼‰
         /// </summary>
         public double Delay
         {
@@ -46,7 +46,7 @@ namespace LyricView.Controls
         }
 
         /// <summary>
-        /// ¹ö¶¯ËÙ¶È
+        /// æ»šåŠ¨é€Ÿåº¦
         /// </summary>
         public double ScrollDuration
         {
@@ -55,7 +55,7 @@ namespace LyricView.Controls
         }
 
         /// <summary>
-        /// ¶ÔÓ¦ItemsControlÖĞµÄItemSource
+        /// å¯¹åº”ItemsControlä¸­çš„ItemSource
         /// </summary>
         public IEnumerable? ItemsSource
         {
@@ -90,11 +90,11 @@ namespace LyricView.Controls
         {
             InitializeComponent();
 
-            // ¶©ÔÄÍÏ×§¹ö¶¯ÌõÊÂ¼ş
+            // è®¢é˜…æ‹–æ‹½æ»šåŠ¨æ¡äº‹ä»¶
             Thumb.DragStartedEvent.AddClassHandler<ScrollBar>(scrollBar_DragStarted, RoutingStrategies.Bubble);
             Thumb.DragDeltaEvent.AddClassHandler<ScrollBar>(scrollBar_OnThumbDrag, RoutingStrategies.Bubble);
             Thumb.DragCompletedEvent.AddClassHandler<ScrollBar>(scrollBar_DragCompleted, RoutingStrategies.Bubble);
-            // ¶©ÔÄÊó±ê¹öÂÖÊÂ¼ş
+            // è®¢é˜…é¼ æ ‡æ»šè½®äº‹ä»¶
             PointerWheelChangedEvent.AddClassHandler<InputElement>(onPointerWheelChanged, RoutingStrategies.Tunnel | RoutingStrategies.Bubble | RoutingStrategies.Direct);
 
             // timer
@@ -115,7 +115,7 @@ namespace LyricView.Controls
                 _selectedIndexs.Push(index);
                 onTimerTick();
 
-                // Æô¶¯¼ÆÊ±Æ÷
+                // å¯åŠ¨è®¡æ—¶å™¨
                 _timer.Start();
             });
         }
@@ -258,7 +258,7 @@ namespace LyricView.Controls
 
                 if (index == _scrollingIndex)
                 {
-                    // ÈÔÊÇÖ®Ç°µÄindex£¬Çå¿ÕÕ»
+                    // ä»æ˜¯ä¹‹å‰çš„indexï¼Œæ¸…ç©ºæ ˆ
                     _selectedIndexs.Clear();
                     _curIndex = _scrollingIndex;
                     if (!_firstScrollDone)
@@ -267,12 +267,12 @@ namespace LyricView.Controls
                         _initScrollViewerTransition();
                     }
 
-                    // È·±£Ñ¡ÖĞ
+                    // ç¡®ä¿é€‰ä¸­
                     setSelected(_scrollingIndex);
                 }
                 else
                 {
-                    // ÓĞĞÂµÄindex¼ÓÈë£¬ĞèÒª¼ÌĞø¹ö¶¯
+                    // æœ‰æ–°çš„indexåŠ å…¥ï¼Œéœ€è¦ç»§ç»­æ»šåŠ¨
                     scrollToCur(index);
                 }
             }
@@ -320,12 +320,6 @@ namespace LyricView.Controls
 
         private void scrollCurToCenter(ILogical logical)
         {
-            double remainHeight = scrollViewer.Extent.Height - scrollViewer.Bounds.Height - scrollViewer.Offset.Y;
-            if (Math.Abs(remainHeight) < 1e-10)
-            {
-                return;
-            }
-
             Visual? visual = logical as Visual;
             if (visual is null)
             {
@@ -337,7 +331,8 @@ namespace LyricView.Controls
             {
                 double centerY = scrollViewer.Bounds.Height / 2;
                 double centerItemY = pos.Value.Y + visual.Bounds.Height / 2;
-                scrollViewer.Offset += new Vector(0, centerItemY - centerY);
+                double remainHeight = scrollViewer.Extent.Height - scrollViewer.Bounds.Height - scrollViewer.Offset.Y;
+                scrollViewer.Offset += new Vector(0, Math.Min(centerItemY - centerY, remainHeight));
             }
         }
 
